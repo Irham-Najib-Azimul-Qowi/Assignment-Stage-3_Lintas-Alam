@@ -1,7 +1,4 @@
-# Assignment-Stage-3_Lintas-Alam
-Repositori ini dibuat untuk memenuhi assignment dari stage 3 sic batch 6 oleh tim Lintas Alam dengan kode tim UNI107
-
-# Tutorial Setup: Sistem Absensi Wajah dengan ESP32 & Streamlit
+# Panduan Setup: Sistem Absensi Wajah dengan ESP32 & Streamlit
 
 Panduan ini menjelaskan cara mengatur dan menjalankan Sistem Absensi Wajah menggunakan ESP32-CAM, ESP32, Server Python, dan Streamlit.
 
