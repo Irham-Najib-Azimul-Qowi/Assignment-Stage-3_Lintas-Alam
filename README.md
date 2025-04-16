@@ -1,193 +1,246 @@
-Proyek Absensi Otomatis Lintas Alam (Kode Tim: UNI107)
-Selamat datang di repositori Assignment-Stage-3_Lintas-Alam! Proyek ini adalah solusi absensi otomatis berbasis teknologi IoT dan pengenalan wajah, dikembangkan oleh Tim Lintas Alam (Kode Tim: UNI107). Sistem ini mengintegrasikan ESP32-CAM untuk streaming video, ESP32 dengan layar OLED dan servo untuk kontrol pintu, aplikasi Streamlit untuk manajemen jadwal dan kontrol manual, serta penyimpanan data absensi di Ubidots dan file CSV. Proyek ini dirancang untuk lingkungan akademik, memungkinkan absensi otomatis dengan verifikasi wajah.
-Deskripsi Proyek
-Proyek ini bertujuan menciptakan sistem absensi otomatis yang efisien dengan fitur-fitur berikut:
+🌟 Proyek Absensi Otomatis Lintas Alam (Kode Tim: UNI107)
+Selamat datang di repositori Assignment-Stage-3_Lintas-Alam! 🚀 Proyek ini adalah solusi absensi otomatis berbasis IoT dan pengenalan wajah, dikembangkan oleh Tim Lintas Alam (Kode Tim: UNI107). Sistem ini mengintegrasikan ESP32-CAM untuk streaming video, ESP32 dengan layar OLED dan servo untuk kontrol pintu, serta aplikasi Streamlit untuk manajemen jadwal dan kontrol manual. Data absensi disimpan di Ubidots ☁️ dan file CSV 📊 untuk lingkungan akademik yang lebih efisien.
 
-Pengenalan Wajah: Menggunakan ESP32-CAM untuk streaming video dan library face_recognition di server Python untuk mendeteksi dan mengenali wajah.
-Kontrol Pintu Otomatis: Servo MG90S membuka dan menutup pintu berdasarkan hasil pengenalan wajah.
-Tampilan Status: Layar OLED SSD1306 (128x64, I2C) pada ESP32 menampilkan status absensi, seperti "Silahkan Absen!" atau nama mahasiswa yang absen.
-Manajemen Jadwal: Aplikasi Streamlit memungkinkan pengaturan jadwal absensi untuk mata kuliah atau individu, dengan kontrol manual untuk flash, pintu, dan pesan OLED.
-Integrasi IoT: Semua perangkat berkomunikasi melalui protokol MQTT menggunakan broker publik broker.emqx.io.
-Penyimpanan Data: Data absensi dikirim ke platform Ubidots untuk visualisasi dan disimpan lokal dalam file CSV (attendance_log.csv).
+📝 Deskripsi Proyek
+Proyek ini dirancang untuk menciptakan sistem absensi otomatis yang cerdas dengan fitur berikut:
 
-Struktur Repositori
-Berikut adalah daftar file dalam repositori beserta fungsinya:
-
-esp32cam.ino: Kode Arduino untuk ESP32-CAM, menangani streaming video MJPEG, kontrol flash (GPIO4), dan komunikasi MQTT untuk menerima perintah flash dan mengirim IP perangkat.
-camera_pins.h: File header yang mendefinisikan konfigurasi pin untuk berbagai model kamera ESP32-CAM (default: AI-Thinker).
-esp32.py: Kode MicroPython untuk ESP32 Dev Module, mengontrol servo MG90S (GPIO23), layar OLED SSD1306 (I2C, GPIO21 dan GPIO22), dan komunikasi MQTT untuk menerima perintah pintu dan pesan OLED.
-ssd1306.py: Driver MicroPython untuk layar OLED SSD1306, mendukung antarmuka I2C dan SPI.
-server.py: Script Python untuk server, menangani pengenalan wajah menggunakan face_recognition, komunikasi MQTT, pengiriman data absensi ke Ubidots, dan penyimpanan log absensi dalam CSV.
-streamlit.py: Aplikasi Streamlit untuk antarmuka pengguna, memungkinkan pengaturan jadwal absensi, kontrol flash/pintu/OLED, dan melihat log aktivitas MQTT.
-requirements.txt: Daftar dependensi Python minimal untuk streamlit.py (termasuk streamlit dan paho-mqtt).
-
-Komponen Hardware
-Berikut adalah daftar lengkap komponen hardware yang diperlukan:
-
-ESP32-CAM (dengan modul kamera OV2640): Untuk streaming video dan pengenalan wajah. Pastikan model AI-Thinker untuk kompatibilitas dengan camera_pins.h.
-ESP32 Dev Module (misalnya, ESP32-WROOM-32): Untuk mengontrol servo dan layar OLED. Modul dengan 30/38 pin disarankan untuk kemudahan koneksi.
-Servo MG90S: Motor servo untuk membuka/tutup pintu (sudut 0°-90°). Memerlukan daya 5V stabil.
-Layar OLED SSD1306 (128x64, I2C): Menampilkan status absensi. Menggunakan protokol I2C untuk komunikasi.
-FTDI USB-to-Serial Adapter atau ESP32 Downloader: Untuk mengunggah kode ke ESP32-CAM, yang tidak memiliki port USB bawaan.
-Kabel USB:
-Tipe-A ke Micro-USB untuk ESP32-CAM (via FTDI).
-Tipe-A ke USB-C untuk ESP32 Dev Module (tergantung model).
+👤 Pengenalan Wajah: Menggunakan ESP32-CAM untuk streaming video dan library face_recognition di server Python untuk mendeteksi serta mengenali wajah.
+🚪 Kontrol Pintu Otomatis: Servo MG90S membuka/tutup pintu berdasarkan hasil pengenalan wajah.
+🖥️ Tampilan Status: Layar OLED SSD1306 (128x64, I2C) menampilkan status seperti "Silahkan Absen!" atau nama mahasiswa.
+📅 Manajemen Jadwal: Aplikasi Streamlit memungkinkan pengaturan jadwal absensi mata kuliah atau perorangan, plus kontrol manual untuk flash, pintu, dan OLED.
+🌐 Integrasi IoT: Komunikasi antar perangkat melalui protokol MQTT dengan broker publik broker.emqx.io.
+💾 Penyimpanan Data: Data absensi dikirim ke Ubidots untuk visualisasi dan disimpan lokal di attendance_log.csv.
 
 
-Jumper Wires (Male-to-Female dan Male-to-Male): Untuk menghubungkan servo, OLED, dan komponen lain. Minimal 10 kabel.
-Breadboard (400 lubang atau lebih): Untuk perakitan rangkaian sementara.
-PCB (opsional): Untuk rangkaian permanen menggunakan soldering.
-Power Supply (opsional): Adaptor 5V/2A dengan konektor Micro-USB/USB-C untuk daya eksternal jika USB tidak cukup.
-Komputer: Untuk menjalankan server.py, streamlit.py, dan mengunggah kode ke ESP32-CAM/ESP32. Spesifikasi minimal: Windows 10/11, macOS, atau Linux dengan RAM 4GB.
-Router WiFi: Untuk koneksi internet ESP32-CAM dan ESP32 ke broker MQTT. Pastikan sinyal stabil.
+📂 Struktur Repositori
+Berikut daftar file beserta fungsinya:
 
-Catatan Hardware
 
-ESP32-CAM memerlukan daya 5V stabil. Jika menggunakan FTDI, pastikan FTDI mendukung arus hingga 500mA.
-Servo MG90S dapat menarik arus tinggi (hingga 700mA saat berputar). Gunakan sumber daya eksternal jika ESP32 tidak cukup kuat.
-OLED SSD1306 harus mendukung I2C (alamat default: 0x3C). Periksa dokumentasi jika alamat berbeda.
 
-Prasyarat Software
-Pastikan kamu memiliki perangkat lunak berikut sebelum memulai:
+File
+Fungsi
 
-Arduino IDE (versi 2.x atau terbaru): Untuk mengunggah kode ke ESP32-CAM.
-Thonny IDE (versi 4.x atau terbaru): Untuk mengunggah kode MicroPython ke ESP32.
-Python 3.8+: Untuk menjalankan server.py dan streamlit.py. Python 3.9 direkomendasikan untuk kompatibilitas maksimal.
-Git: Untuk mengelola repositori (opsional, jika ingin clone atau push).
-Akun Streamlit Cloud: Untuk deploy aplikasi Streamlit (daftar gratis di streamlit.io/cloud).
-Akun Ubidots: Untuk menyimpan dan memvisualisasikan data absensi (daftar gratis di ubidots.com).
-Koneksi WiFi Stabil: Dengan SSID dan kata sandi untuk ESP32-CAM dan ESP32.
 
-Dependensi Python
-Berikut adalah daftar lengkap dependensi Python untuk menjalankan server.py dan streamlit.py. Instalasi dilakukan melalui pip.
+
+esp32cam.ino
+Kode Arduino untuk ESP32-CAM: streaming video MJPEG, kontrol flash (GPIO4), dan MQTT.
+
+
+camera_pins.h
+Konfigurasi pin untuk model kamera ESP32-CAM (default: AI-Thinker).
+
+
+esp32.py
+Kode MicroPython untuk ESP32: kontrol servo MG90S (GPIO23), OLED SSD1306 (I2C, GPIO21 & GPIO22), dan MQTT.
+
+
+ssd1306.py
+Driver MicroPython untuk layar OLED SSD1306 (I2C/SPI).
+
+
+server.py
+Script Python untuk pengenalan wajah, komunikasi MQTT, data ke Ubidots, dan log CSV.
+
+
+streamlit.py
+Aplikasi Streamlit untuk jadwal absensi, kontrol flash/pintu/OLED, dan log MQTT.
+
+
+requirements.txt
+Daftar dependensi Python untuk streamlit.py (streamlit, paho-mqtt).
+
+
+
+🔧 Komponen Hardware
+Berikut komponen yang diperlukan untuk menjalankan proyek:
+
+
+
+Komponen
+Deskripsi
+
+
+
+ESP32-CAM (OV2640)
+Streaming video dan pengenalan wajah. Gunakan model AI-Thinker.
+
+
+ESP32 Dev Module
+Kontrol servo dan OLED. Rekomendasi: ESP32-WROOM-32 (30/38 pin).
+
+
+Servo MG90S
+Membuka/tutup pintu (sudut 0°-90°). Membutuhkan daya 5V stabil.
+
+
+Layar OLED SSD1306
+Tampilan status absensi (128x64, I2C, alamat default: 0x3C).
+
+
+FTDI/ESP32 Downloader
+Mengunggah kode ke ESP32-CAM (tanpa port USB bawaan).
+
+
+Kabel USB
+Tipe-A ke Micro-USB (ESP32-CAM via FTDI), Tipe-A ke USB-C (ESP32).
+
+
+Jumper Wires
+Male-to-Female/Male-to-Male untuk koneksi servo, OLED, dll. (min. 10).
+
+
+Breadboard
+Perakitan rangkaian sementara (min. 400 lubang).
+
+
+PCB (opsional)
+Untuk rangkaian permanen dengan soldering.
+
+
+Power Supply (opsional)
+Adaptor 5V/2A untuk daya eksternal jika USB tidak cukup.
+
+
+Komputer
+Jalankan server.py, streamlit.py, dan unggah kode. Min: 4GB RAM.
+
+
+Router WiFi
+Koneksi internet untuk ESP32-CAM/ESP32 ke MQTT. Pastikan sinyal stabil.
+
+
+⚠️ Catatan Hardware
+
+ESP32-CAM: Membutuhkan daya 5V stabil. Pastikan FTDI mendukung arus hingga 500mA.
+Servo MG90S: Konsumsi arus hingga 700mA saat berputar. Gunakan daya eksternal jika perlu.
+OLED SSD1306: Harus mendukung I2C. Periksa alamat (default: 0x3C) di dokumentasi.
+
+
+🛠️ Prasyarat Software
+Pastikan kamu memiliki:
+
+Arduino IDE (v2.x+): Untuk mengunggah kode ke ESP32-CAM.
+Thonny IDE (v4.x+): Untuk kode MicroPython di ESP32.
+Python 3.8+: Untuk server.py dan streamlit.py. Python 3.9 direkomendasikan.
+Git (opsional): Untuk mengelola repositori.
+Akun Streamlit Cloud: Deploy aplikasi Streamlit (gratis di streamlit.io/cloud).
+Akun Ubidots: Simpan dan visualisasikan data absensi (gratis di ubidots.com).
+WiFi Stabil: SSID dan kata sandi untuk ESP32-CAM dan ESP32.
+
+
+📦 Dependensi Python
+Instal dependensi melalui pip untuk menjalankan server.py dan streamlit.py.
 Untuk streamlit.py
-Dependensi minimal ada di requirements.txt:
+Daftar minimal di requirements.txt:
 pip install streamlit==1.29.0 paho-mqtt==2.1.0
 
 Untuk server.py
-Dependensi tambahan diperlukan untuk pengenalan wajah, pemrosesan gambar, dan komunikasi:
+Dependensi tambahan untuk pengenalan wajah dan komunikasi:
 pip install paho-mqtt==2.1.0 opencv-python==4.8.1.78 numpy==1.24.3 face_recognition==1.3.0 requests==2.31.0 pandas==2.0.3 pickle5==0.0.11
 
-Catatan Instalasi face_recognition
+⚠️ Catatan Instalasi face_recognition
+Library face_recognition membutuhkan dlib, yang memerlukan:
 
-Library face_recognition memerlukan dlib, yang bisa sulit diinstal di beberapa sistem. Pastikan kamu memiliki:
+CMake dan kompiler C++ (contoh: Visual Studio Build Tools di Windows).
+Python 3.7-3.9 (3.10+ mungkin bermasalah).
 
-CMake dan kompiler C++ (misalnya, Visual Studio Build Tools di Windows).
-Python 3.7-3.9 (versi 3.10+ mungkin bermasalah).
-
-
-Jika instalasi dlib gagal, coba:
+Jika dlib gagal:
 pip install dlib --verbose
 
-Atau, instal precompiled wheel dari sumber tidak resmi seperti PyPI atau:
+Atau gunakan precompiled wheel:
 pip install dlib-bin
 
+Windows:
 
-Di Windows, instal Visual Studio Community dengan workload "Desktop development with C++".
+Instal Visual Studio Community dengan workload "Desktop development with C++".
 
-Di Linux, instal dependensi:
+Linux:
 sudo apt-get install build-essential cmake libopenblas-dev liblapack-dev libx11-dev libgtk-3-dev
 
-
-Di macOS, instal dependensi:
+macOS:
 brew install cmake libpng
 
-
-
-Instalasi Semua Dependensi Sekaligus
-Jalankan perintah berikut untuk menginstal semua dependensi:
+Instalasi Semua Dependensi
 pip install streamlit==1.29.0 paho-mqtt==2.1.0 opencv-python==4.8.1.78 numpy==1.24.3 face_recognition==1.3.0 requests==2.31.0 pandas==2.0.3 pickle5==0.0.11
 
-Tutorial Penggunaan
-Berikut adalah panduan langkah demi langkah untuk menyiapkan dan menjalankan semua komponen proyek.
-1. Menyiapkan ESP32-CAM di Arduino IDE
-ESP32-CAM bertanggung jawab untuk streaming video MJPEG dan kontrol flash (lampu LED pada GPIO4).
+
+📚 Tutorial Penggunaan
+Berikut panduan langkah demi langkah untuk menyiapkan dan menjalankan proyek.
+1. 🎥 Menyiapkan ESP32-CAM di Arduino IDE
+ESP32-CAM menangani streaming video MJPEG dan kontrol flash (LED pada GPIO4).
 Langkah-langkah:
 
 Instal Arduino IDE:
 
-Unduh dari arduino.cc (versi 2.x direkomendasikan).
-Instal dan buka Arduino IDE.
+Unduh dari arduino.cc (v2.x+).
+Buka Arduino IDE.
 
 
 Tambahkan Board ESP32:
 
 Buka File > Preferences.
 
-Di Additional Boards Manager URLs, tambahkan:
+Tambahkan URL di Additional Boards Manager URLs:
 https://raw.githubusercontent.com/espressif/arduino-esp32/master/package_esp32_index.json
 
 
-Buka Tools > Board > Boards Manager, cari esp32, dan instal ESP32 by Espressif Systems (versi terbaru).
+Buka Tools > Board > Boards Manager, cari esp32, instal ESP32 by Espressif Systems.
 
 
 
 Instal Library:
 
 Buka Sketch > Include Library > Manage Libraries.
-Cari dan instal:
-ESP32 (sudah termasuk esp_camera.h)
-WiFi (bawaan ESP32)
-WebServer (bawaan ESP32)
-PubSubClient (oleh Nick O'Leary, versi 2.x)
+Instal:
+ESP32 (termasuk esp_camera.h)
+WiFi
+WebServer
+PubSubClient (Nick O'Leary, v2.x+)
 
 
-Jika library tidak ditemukan, unduh PubSubClient dari GitHub dan tambahkan via Sketch > Include Library > Add .ZIP Library.
+Alternatif: Unduh PubSubClient dari GitHub, tambahkan via Add .ZIP Library.
 
 
 Hubungkan ESP32-CAM:
 
-Gunakan FTDI USB-to-Serial Adapter atau ESP32 Downloader untuk menghubungkan ESP32-CAM ke komputer.
+Gunakan FTDI USB-to-Serial Adapter atau ESP32 Downloader.
 Koneksi FTDI:
 VCC (FTDI) → 5V (ESP32-CAM)
 GND (FTDI) → GND (ESP32-CAM)
 TX (FTDI) → RX (U0R, GPIO3)
 RX (FTDI) → TX (U0T, GPIO1)
-Jumper GPIO0 ke GND saat upload kode (gunakan jumper wire).
+Jumper GPIO0 ke GND saat upload kode.
 
 
-Pastikan driver FTDI terinstal:
-Windows: Unduh dari ftdichip.com.
-macOS/Linux: Biasanya otomatis terdeteksi.
-
-
-Setelah upload, lepaskan jumper GPIO0 untuk menjalankan kode.
+Instal driver FTDI dari ftdichip.com.
+Lepaskan jumper GPIO0 setelah upload.
 
 
 Konfigurasi Kode:
 
-Buka file esp32cam.ino di Arduino IDE.
+Buka esp32cam.ino.
 
-Edit konfigurasi WiFi:
-const char* ssid = "ssid"; // Ganti dengan SSID WiFi kamu
-const char* password = "password"; // Ganti dengan kata sandi WiFi
+Edit WiFi:
+const char* ssid = "ssid"; // Ganti dengan SSID WiFi
+const char* password = "password"; // Ganti dengan kata sandi
 
 
-Pastikan model kamera sesuai di baris:
+Pastikan model kamera:
 #define CAMERA_MODEL_AI_THINKER
 
-
-Jika menggunakan model lain (misalnya, WROVER_KIT), ubah sesuai opsi di camera_pins.h.
-
+Sesuaikan dengan camera_pins.h jika model berbeda.
 
 
 
 Upload Kode:
 
-Pilih board: Tools > Board > ESP32 Arduino > ESP32-CAM.
+Pilih Tools > Board > ESP32 Arduino > ESP32-CAM.
 
-Pilih port: Tools > Port (misalnya, COM3 di Windows atau /dev/ttyUSB0 di Linux).
+Pilih port di Tools > Port.
 
-Tekan tombol Boot di ESP32-CAM, lalu klik Upload di Arduino IDE.
+Tekan tombol Boot, klik Upload.
 
-Jika upload gagal:
-
-Pastikan jumper GPIO0 terhubung ke GND.
-Cek driver FTDI/port COM.
-Gunakan kabel USB berkualitas.
-
-
-Setelah upload selesai, buka Serial Monitor (baud rate: 115200) untuk melihat IP ESP32-CAM, misalnya:
+Buka Serial Monitor (115200 baud) untuk melihat IP, misalnya:
 Streaming tersedia di: http://192.168.1.100/stream
 
 
@@ -195,115 +248,90 @@ Streaming tersedia di: http://192.168.1.100/stream
 
 Uji Coba:
 
-Buka browser, masukkan URL streaming dari Serial Monitor (misalnya, http://192.168.1.100/stream).
-Kamu akan melihat streaming video MJPEG dari ESP32-CAM.
-Uji kontrol flash dengan mengirim pesan MQTT via Streamlit (lihat bagian Streamlit):
+Buka URL streaming di browser (contoh: http://192.168.1.100/stream).
+Lihat video MJPEG.
+Uji flash via Streamlit:
 Topic: lintas_alam/lampu1
-Pesan: ON atau OFF.
+Pesan: ON/OFF.
 
 
 
 
 
-Troubleshooting ESP32-CAM:
+🔍 Troubleshooting
 
-Port Tidak Terdeteksi:
-Instal driver FTDI atau CP2102 (tergantung adapter).
-Cek Device Manager (Windows) atau ls /dev/tty* (Linux/macOS).
-
-
-Upload Gagal:
-Pastikan jumper GPIO0 ke GND saat upload.
-Tekan tombol Boot sebelum klik Upload.
-Coba port USB lain atau komputer lain.
+Port Tidak Terdeteksi: Instal driver FTDI/CP2102. Cek Device Manager (Windows) atau ls /dev/tty* (Linux/macOS).
+Upload Gagal: Pastikan jumper GPIO0 ke GND. Tekan Boot sebelum upload.
+Streaming Gagal: Cek SSID/password. Pastikan port 80 tidak diblokir firewall.
 
 
-Streaming Tidak Muncul:
-Pastikan ESP32-CAM terhubung ke WiFi (cek SSID/password).
-Cek firewall; pastikan port 80 tidak diblokir.
-Uji dengan http://<IP>/capture untuk gambar statis.
-
-
-
-2. Menyiapkan ESP32 di Thonny (MicroPython)
-ESP32 Dev Module mengontrol servo MG90S untuk pintu dan layar OLED SSD1306 untuk status absensi.
+2. ⚙️ Menyiapkan ESP32 di Thonny (MicroPython)
+ESP32 mengontrol servo MG90S (pintu) dan OLED SSD1306 (status).
 Langkah-langkah:
 
 Instal Thonny:
 
-Unduh dari thonny.org (versi 4.x direkomendasikan).
-Instal dan buka Thonny.
+Unduh dari thonny.org (v4.x+).
+Buka Thonny.
 
 
-Instal MicroPython di ESP32:
+Instal MicroPython:
 
-Unduh firmware MicroPython untuk ESP32 dari micropython.org.
+Unduh firmware dari micropython.org (contoh: esp32-20230426-v1.20.0.bin).
 
-Pilih firmware stabil (misalnya, esp32-20230426-v1.20.0.bin).
+Hubungkan ESP32 via USB.
 
-Hubungkan ESP32 ke komputer via kabel USB.
-
-Instal esptool untuk flashing:
+Instal esptool:
 pip install esptool
 
 
-Hapus flash dan unggah firmware:
+Flash firmware:
 esptool.py --port COMX erase_flash
 esptool.py --port COMX write_flash -z 0x1000 esp32-20230426-v1.20.0.bin
 
-Ganti COMX dengan port ESP32 (misalnya, COM4) dan nama file firmware sesuai yang diunduh.
-
-Jika port tidak terdeteksi, instal driver CP2102 dari silabs.com.
+Ganti COMX dengan port ESP32.
 
 
 
 Konfigurasi Thonny:
 
 Buka Tools > Options > Interpreter.
-Pilih MicroPython (ESP32) sebagai interpreter.
-Pilih port COM yang sesuai (misalnya, COM4).
-Klik Install or update MicroPython jika ingin instal firmware via Thonny.
+Pilih MicroPython (ESP32) dan port COM.
+Instal driver CP2102 dari silabs.com jika port tidak terdeteksi.
 
 
 Unggah File:
 
-Buka file esp32.py dan ssd1306.py di Thonny.
+Buka esp32.py dan ssd1306.py.
 
-Edit esp32.py untuk konfigurasi WiFi:
-WIFI_SSID = "ssid"  # Ganti dengan SSID WiFi kamu
-WIFI_PASSWORD = "password"  # Ganti dengan kata sandi WiFi
+Edit WiFi di esp32.py:
+WIFI_SSID = "ssid"  # Ganti SSID
+WIFI_PASSWORD = "password"  # Ganti kata sandi
 
 
-Klik kanan pada esp32.py dan ssd1306.py, pilih Upload to / untuk mengunggah ke ESP32.
+Klik kanan file, pilih Upload to /.
 
-Simpan esp32.py sebagai main.py di ESP32:
-
-Klik kanan esp32.py, pilih Upload to /main.py.
-Ini memastikan kode berjalan otomatis saat ESP32 dinyalakan.
-
+Simpan esp32.py sebagai main.py untuk autorun.
 
 
 
 Hubungkan Hardware:
 
 Servo MG90S:
-
-VCC (merah) → 5V (ESP32, pin VIN jika pakai USB)
-GND (cokelat) → GND (ESP32)
+VCC (merah) → 5V (ESP32, VIN)
+GND (cokelat) → GND
 Signal (oranye) → GPIO23
 
 
 OLED SSD1306 (I2C):
-
-VCC → 3.3V (ESP32)
-GND → GND (ESP32)
+VCC → 3.3V
+GND → GND
 SDA → GPIO21
 SCL → GPIO22
 
 
-Gunakan breadboard untuk koneksi. Pastikan kabel jumper kuat dan tidak longgar.
 
-Diagram koneksi (contoh):
+Diagram Koneksi:
 ESP32       Servo MG90S       OLED SSD1306
 VIN  ----> VCC (merah)      
 GND  ----> GND (cokelat) ----> GND
@@ -313,80 +341,68 @@ GPIO21 --------------------> SDA
 GPIO22 --------------------> SCL
 
 
-
-
 Uji Coba:
 
-Nyalakan ESP32 (hubungkan ke USB atau power supply).
-
-OLED akan menampilkan:
+Nyalakan ESP32. OLED menampilkan:
 Initializing...
-
-Lalu, jika tidak ada jadwal aktif:
 Absen Ditutup!
 Silahkan Hubungi Dosen!
 
 
-Uji servo dengan mengirim pesan MQTT via Streamlit:
+Uji servo via Streamlit:
 
 Topic: lintas_alam/door
-Pesan: OPEN (servo berputar ke OPEN_ANGLE, default 90°) atau CLOSE (ke CLOSE_ANGLE, default 0°).
+Pesan: OPEN/CLOSE
 
 
-Uji OLED dengan mengirim pesan MQTT:
+Uji OLED:
 
 Topic: lintas_alam/oled
-Pesan: Misalnya, Tes OLED.
+Pesan: Tes OLED.
 
 
 
 
 
-Troubleshooting ESP32:
+🔍 Troubleshooting
 
-ESP32 Tidak Terdeteksi:
-
-Instal driver CP2102 atau CH340 (tergantung modul ESP32).
-Cek port di Device Manager (Windows) atau ls /dev/tty* (Linux/macOS).
-
+ESP32 Tidak Terdeteksi: Instal driver CP2102/CH340.
 
 OLED Tidak Menampilkan:
 
-Cek koneksi I2C (SDA, SCL). Gunakan multimeter untuk memastikan kontinuitas.
-
-Jalankan kode I2C scanner untuk memeriksa alamat OLED:
+Cek koneksi I2C. Jalankan I2C scanner:
 from machine import Pin, I2C
 i2c = I2C(1, scl=Pin(22), sda=Pin(21))
 print(i2c.scan())
 
-Alamat default OLED adalah 0x3C. Jika berbeda, ubah di esp32.py.
+
+Sesuaikan alamat (default: 0x3C) di esp32.py.
 
 
 
 Servo Tidak Bergerak:
 
-Cek daya (servo memerlukan arus tinggi). Gunakan power supply 5V eksternal jika perlu.
+Cek daya (gunakan power supply 5V jika perlu).
 
-Pastikan sudut di esp32.py sesuai (OPEN_ANGLE, CLOSE_ANGLE). Jika terbalik, tukar nilai (misalnya, OPEN_ANGLE=0, CLOSE_ANGLE=90).
-
-Uji servo dengan kode sederhana:
+Uji dengan:
 from machine import Pin, PWM
 servo = PWM(Pin(23), freq=50)
-servo.duty(77)  # Sudut ~90°
+servo.duty(77)  # ~90°
 
 
 
 
 
-3. Menjalankan Server (server.py)
-Server menangani pengenalan wajah, komunikasi MQTT, pengiriman data ke Ubidots, dan penyimpanan log absensi.
+
+3. 🖥️ Menjalankan Server (server.py)
+Server menangani pengenalan wajah, MQTT, Ubidots, dan log CSV.
 Langkah-langkah:
 
 Instal Python:
 
-Unduh Python 3.8 atau 3.9 dari python.org. Hindari Python 3.10+ karena masalah kompatibilitas face_recognition.
+Unduh Python 3.8/3.9 dari python.org.
 
-Pastikan pip terinstal:
+Pastikan pip:
 python -m ensurepip --upgrade
 python -m pip install --upgrade pip
 
@@ -394,71 +410,50 @@ python -m pip install --upgrade pip
 
 
 Instal Dependensi:
-
-Buka terminal di folder proyek.
-
-Instal semua dependensi:
 pip install paho-mqtt==2.1.0 opencv-python==4.8.1.78 numpy==1.24.3 face_recognition==1.3.0 requests==2.31.0 pandas==2.0.3 pickle5==0.0.11
-
-
-Jika face_recognition gagal, instal dependensi dlib terlebih dahulu (lihat catatan di atas).
-
 
 
 Siapkan Dataset Wajah:
 
-Buat folder dataset di direktori yang sama dengan server.py.
+Buat folder dataset di direktori server.py.
 
-Untuk setiap orang, buat subfolder dengan nama (misalnya, dataset/John_Doe).
+Tambahkan subfolder per orang (contoh: dataset/John_Doe).
 
-Tambahkan minimal 3-5 gambar wajah per orang (format .jpg atau .png, resolusi minimal 640x480).
-
-Contoh struktur:
+Masukkan 3-5 gambar wajah per orang (.jpg/.png, min. 640x480).
 dataset/
 ├── John_Doe/
 │   ├── image1.jpg
 │   ├── image2.jpg
-│   ├── image3.jpg
 ├── Jane_Smith/
 │   ├── image1.jpg
-│   ├── image2.jpg
 
-
-Pastikan wajah jelas, dengan pencahayaan baik dan sudut beragam untuk akurasi pengenalan.
 
 
 
 Konfigurasi Ubidots:
 
-Daftar di ubidots.com (akun gratis untuk pendidikan).
+Daftar di ubidots.com (gratis).
 
-Buat perangkat baru di dashboard Ubidots (nama: face_recognation).
+Buat perangkat face_recognation.
 
-Dapatkan UBIDOTS_TOKEN dari API Credentials di profil Ubidots.
+Ambil UBIDOTS_TOKEN dari API Credentials.
 
 Edit server.py:
-UBIDOTS_TOKEN = "BBUS-w4hoDRHaDcWGfZAO4RZITgVz6EoLhq"  # Ganti dengan token kamu
+UBIDOTS_TOKEN = "your-token-here"
 
 
 
 
 Jalankan Server:
-
-Pastikan ESP32-CAM menyala dan terhubung ke WiFi (IP dikirim via MQTT ke topic lintas_alam/ip).
-
-Jalankan server.py:
 python server.py
 
 
 Server akan:
-
-Memuat dataset wajah dari folder dataset.
-Terhubung ke MQTT broker (broker.emqx.io).
-Mulai streaming video dari ESP32-CAM (menggunakan IP dari MQTT).
-Menampilkan jendela OpenCV dengan kotak dan nama wajah yang dikenali.
-Mencetak tabel absensi di terminal setiap 30 frame.
-Menyimpan log absensi ke attendance_log.csv.
-Mengirim data absensi ke Ubidots.
+Memuat dataset wajah.
+Terhubung ke broker.emqx.io.
+Streaming video dari ESP32-CAM (via IP di lintas_alam/ip).
+Tampilkan wajah di jendela OpenCV.
+Log absensi ke attendance_log.csv dan Ubidots.
 
 
 
@@ -466,283 +461,193 @@ Mengirim data absensi ke Ubidots.
 Uji Coba:
 
 Hadapkan wajah ke ESP32-CAM.
-Jika wajah dikenali dan sesuai jadwal (dari Streamlit):
-Jendela OpenCV menunjukkan kotak hijau dengan nama.
-Pintu terbuka (servo bergerak, dikontrol via MQTT lintas_alam/door).
-OLED menampilkan pesan seperti John_Doe telah absen.
-Data absensi muncul di dashboard Ubidots.
+Jika sesuai jadwal:
+OpenCV menampilkan kotak hijau dan nama.
+Pintu terbuka (lintas_alam/door, OPEN).
+OLED menampilkan pesan (contoh: John_Doe telah absen).
+Data ke Ubidots dan CSV.
 
 
-Cek attendance_log.csv untuk log lokal.
-Tekan q di jendela OpenCV untuk menghentikan server.
-
-
-
-Troubleshooting Server:
-
-Streaming Video Gagal:
-Pastikan IP ESP32-CAM benar (cek log server atau MQTT topic lintas_alam/ip).
-Uji streaming di browser (http://<IP>/stream).
-Cek firewall; pastikan port 80 terbuka.
-
-
-Pengenalan Wajah Tidak Akurat:
-Tambahkan lebih banyak gambar ke dataset (minimal 5 per orang).
-Pastikan pencahayaan baik dan wajah tidak buram.
-Sesuaikan tolerance di server.py (default: 0.5). Nilai lebih kecil (misalnya, 0.4) untuk akurasi lebih ketat.
-
-
-Ubidots Tidak Menerima Data:
-Cek token di server.py.
-Pastikan koneksi internet stabil.
-Buka dashboard Ubidots, cek variabel person_presence dan attendance_timestamp.
-
-
-Jendela OpenCV Tidak Muncul:
-Pastikan opencv-python terinstal.
-Cek apakah frame diterima (tambahkan print("Frame received") di get_mjpeg_frame).
+Tekan q untuk menghentikan.
 
 
 
-4. Deploy Streamlit ke Streamlit Cloud
-Aplikasi Streamlit (streamlit.py) menyediakan antarmuka untuk mengatur jadwal absensi, mengontrol flash/pintu/OLED, dan melihat log MQTT.
+🔍 Troubleshooting
+
+Streaming Gagal: Cek IP ESP32-CAM di log atau lintas_alam/ip. Uji di browser (http://<IP>/stream).
+
+Pengenalan Wajah Buruk: Tambah gambar dataset. Sesuaikan tolerance di server.py (misalnya, 0.4).
+
+Ubidots Gagal: Verifikasi token. Cek variabel person_presence di dashboard.
+
+OpenCV Error: Tambahkan debug:
+print("Frame received")
+
+
+
+
+4. ☁️ Deploy Streamlit ke Streamlit Cloud
+Streamlit mengatur jadwal dan kontrol manual.
 Langkah-langkah:
 
 Instal Streamlit Lokal:
-
-Instal dependensi:
 pip install streamlit==1.29.0 paho-mqtt==2.1.0
-
-
-Uji lokal:
 streamlit run streamlit.py
 
 
-Buka http://localhost:8501 di browser untuk melihat aplikasi.
+Buka http://localhost:8501.
 
 
+Siapkan Repositori:
 
-Siapkan Repositori GitHub:
+Pastikan streamlit.py dan requirements.txt di root.
 
-Pastikan file streamlit.py dan requirements.txt ada di repositori.
-
-Commit dan push:
+Commit:
 git add streamlit.py requirements.txt
-git commit -m "Menambahkan aplikasi Streamlit"
+git commit -m "Tambah Streamlit"
 git push origin main
 
 
-Jika folder streamlit-absensi masih ada di GitHub, hapus via web (lihat percakapan sebelumnya):
-
-Buka github.com/Irham-Najib-Azimul-Qowi/Assignment-Stage-3_Lintas-Alam.
-Navigasi ke streamlit-absensi, hapus setiap file dengan ikon sampah.
-Commit hingga folder kosong dan hilang.
 
 
+Akun Streamlit Cloud:
+
+Daftar di streamlit.io/cloud via GitHub.
 
 
-Buat Akun Streamlit Cloud:
+Deploy:
 
-Daftar di streamlit.io/cloud menggunakan akun GitHub.
-Login dan buat aplikasi baru.
-
-
-Deploy ke Streamlit Cloud:
-
-Di dashboard Streamlit Cloud, klik New app.
+Klik New app di dashboard.
 Pilih repositori Irham-Najib-Azimul-Qowi/Assignment-Stage-3_Lintas-Alam.
-Pilih branch main dan file utama streamlit.py.
-Klik Advanced settings:
-Set Python version ke 3.9.
-Tambahkan secrets jika diperlukan (opsional untuk MQTT publik).
-
-
-Klik Deploy.
-Tunggu 2-5 menit hingga aplikasi aktif di URL seperti https://your-app-name.streamlit.app.
+Set branch main, file streamlit.py.
+Advanced settings: Python 3.9.
+Klik Deploy. Tunggu hingga aktif (contoh: https://your-app.streamlit.app).
 
 
 Uji Coba:
 
-Buka URL aplikasi Streamlit.
-Uji fitur:
-Tab Jadwal:
-Masukkan nama mata kuliah, tanggal, dan waktu untuk jadwal absensi.
-Atur jadwal perorangan dengan nama dan waktu.
-Klik Simpan Jadwal untuk mengirim ke MQTT (lintas_alam/schedule).
-
-
+Buka URL Streamlit.
+Tab Jadwal: Atur mata kuliah/individu, simpan ke lintas_alam/schedule.
 Tab Kontrol:
-Klik Flash ON/OFF untuk mengontrol lampu ESP32-CAM (lintas_alam/lampu1).
-Klik Buka/Tutup Pintu untuk mengontrol servo (lintas_alam/door).
-Masukkan pesan dan klik Kirim Pesan ke OLED (lintas_alam/oled).
+Flash: lintas_alam/lampu1 (ON/OFF).
+Pintu: lintas_alam/door (OPEN/CLOSE).
+OLED: lintas_alam/oled (kirim pesan).
 
 
-Tab Log:
-Lihat log aktivitas MQTT (koneksi, publikasi, error).
-
-
-
-
-Pastikan aplikasi terhubung ke broker.emqx.io (cek log jika gagal).
+Tab Log: Lihat aktivitas MQTT.
 
 
 
-Troubleshooting Streamlit:
+🔍 Troubleshooting
 
-MQTT Tidak Terhubung:
-
-Cek koneksi internet.
-
-Pastikan broker broker.emqx.io aktif (uji dengan client MQTT lain, seperti MQTT Explorer).
-
-Tambahkan log tambahan di streamlit.py:
-logger.debug("Mencoba terhubung ke MQTT...")
+MQTT Gagal: Cek broker.emqx.io dengan MQTT Explorer.
+Deploy Gagal: Periksa log di Streamlit Cloud. Pastikan requirements.txt benar.
+Tombol Error: Cek log di tab Log.
 
 
+5. 🚀 Menjalankan Seluruh Sistem
+
+ESP32-CAM:
+
+Unggah esp32cam.ino.
+Catat IP dari Serial Monitor.
+Uji streaming (http://<IP>/stream).
 
 
-Aplikasi Tidak Deploy:
+ESP32:
 
-Cek requirements.txt (pastikan versi spesifik, misalnya, streamlit==1.29.0).
-Periksa log deploy di Streamlit Cloud untuk error (misalnya, Python version salah).
-Pastikan file streamlit.py ada di root repositori.
-
-
-Tombol Tidak Berfungsi:
-
-Cek log di tab Log untuk pesan error.
-Pastikan MQTT client aktif (st.session_state.mqtt_client).
+Unggah esp32.py sebagai main.py, ssd1306.py.
+OLED menampilkan status. Servo tertutup.
 
 
+Server:
 
-5. Menjalankan Seluruh Sistem
-
-Nyalakan ESP32-CAM:
-
-Pastikan esp32cam.ino terunggah.
-Hubungkan ke WiFi dan catat IP dari Serial Monitor.
-Uji streaming di browser (http://<IP>/stream).
+Jalankan server.py.
+Pastikan dataset wajah ada.
 
 
-Nyalakan ESP32:
+Streamlit:
 
-Pastikan esp32.py dan ssd1306.py terunggah sebagai main.py dan ssd1306.py.
-OLED menampilkan status awal.
-Servo berada di posisi tertutup (CLOSE_ANGLE).
-
-
-Jalankan Server:
-
-Jalankan server.py di komputer.
-Pastikan dataset wajah tersedia di folder dataset.
-Server akan terhubung ke MQTT dan mulai streaming.
-
-
-Akses Streamlit:
-
-Buka aplikasi Streamlit (lokal di http://localhost:8501 atau di Streamlit Cloud).
-Atur jadwal absensi (mata kuliah atau perorangan).
-Uji kontrol manual (flash, pintu, OLED).
+Buka lokal atau di Streamlit Cloud.
+Atur jadwal. Uji kontrol.
 
 
 Uji Absensi:
 
 Hadapkan wajah ke ESP32-CAM.
-Jika wajah dikenali dan sesuai jadwal:
-Server mendeteksi wajah dan menampilkan nama di jendela OpenCV.
-Mengirim perintah OPEN ke lintas_alam/door (servo bergerak).
-Mengirim pesan ke lintas_alam/oled (misalnya, John_Doe telah absen).
-Data absensi dikirim ke Ubidots dan disimpan di attendance_log.csv.
+Jika sesuai jadwal:
+Pintu terbuka.
+OLED menampilkan nama.
+Data ke Ubidots/CSV.
 
 
-Setelah 7 detik, pintu ditutup (CLOSE).
+Pintu menutup setelah 7 detik.
 
 
 
-Contoh Alur Absensi:
+📋 Contoh Alur
 
-Mahasiswa John Doe mendekati ESP32-CAM pada jam 08:00.
-
-Jadwal mata kuliah "Matematika" aktif (08:00-09:00, diatur via Streamlit).
-
-Server mengenali wajah John Doe.
-
-Servo membuka pintu, OLED menampilkan:
-John_Doe telah absen
-Silahkan masuk!
-
-
-Data absensi (name: John_Doe, timestamp: 2025-04-16 08:00:00, status: Hadir, course: Matematika) dikirim ke Ubidots dan disimpan di CSV.
-
-Setelah 7 detik, pintu menutup, dan OLED kembali ke status default.
-
-
-Troubleshooting Lanjutan
-
-ESP32-CAM Tidak Terhubung ke WiFi:
-
-Cek SSID dan password di esp32cam.ino.
-
-Pastikan router mendukung 2.4GHz (ESP32-CAM tidak mendukung 5GHz).
-
-Tambahkan debug di setup():
-Serial.println(WiFi.status());
+08:00: John Doe dekati ESP32-CAM.
+Jadwal: Matematika (08:00-09:00).
+Hasil:
+Wajah dikenali.
+Pintu terbuka, OLED: John_Doe telah absen.
+Data: name: John_Doe, timestamp: 2025-04-16 08:00:00, status: Hadir, course: Matematika.
+Pintu menutup setelah 7 detik.
 
 
 
 
-Servo Bergetar:
-
-Servo MG90S memerlukan daya stabil. Gunakan kapasitor 100uF antara VCC dan GND servo.
-Cek kode PWM di esp32.py; pastikan freq=50.
-
-
-OLED Menampilkan Karakter Acak:
-
-Cek alamat I2C (default: 0x3C).
-Pastikan kabel I2C tidak terlalu panjang (>30cm dapat menyebabkan noise).
-
-
-Streamlit Lambat atau Crash:
-
-Di Streamlit Cloud, tingkatkan resource (opsi berbayar) atau uji lokal.
-Kurangi log berlebihan di streamlit.py untuk performa lebih baik.
-
-
-Dataset Wajah Tidak Dimuat:
-
-Cek path dataset di server.py.
-
-Pastikan gambar tidak korup (buka dengan image viewer).
-
-Tambahkan debug di load_known_faces():
-print(f"Memuat gambar: {image_path}")
+🛠️ Troubleshooting Lanjutan
 
 
 
-
-MQTT Broker Tidak Respons:
-
-Uji koneksi ke broker.emqx.io dengan MQTT client (misalnya, MQTT Explorer).
-Ganti broker jika perlu (misalnya, test.mosquitto.org).
+Masalah
+Solusi
 
 
 
-Kontribusi
-Ingin berkontribusi? Ikuti langkah berikut:
+ESP32-CAM Tidak ke WiFi
+Cek SSID/password. Gunakan 2.4GHz. Debug: Serial.println(WiFi.status());
 
-Fork repositori ini.
-Buat branch baru (git checkout -b fitur-baru).
-Commit perubahan (git commit -m "Menambahkan fitur X").
-Push ke branch (git push origin fitur-baru).
-Ajukan pull request di GitHub.
 
-Pastikan kode terdokumentasi dan lulus tes lokal sebelum mengajukan PR.
-Kontak
-Untuk pertanyaan atau dukungan, hubungi Tim Lintas Alam (UNI107):
+Servo Bergetar
+Tambah kapasitor 100uF di VCC/GND. Pastikan freq=50 di esp32.py.
+
+
+OLED Karakter Acak
+Cek I2C (max 30cm kabel). Verifikasi alamat (0x3C).
+
+
+Streamlit Lambat
+Uji lokal. Kurangi log di streamlit.py.
+
+
+Dataset Gagal Dimuat
+Cek path. Pastikan gambar valid. Debug: print(f"Memuat: {image_path}").
+
+
+MQTT Tidak Respons
+Uji broker.emqx.io dengan MQTT Explorer. Coba test.mosquitto.org.
+
+
+
+🤝 Kontribusi
+Ingin membantu? 😊
+
+Fork repositori.
+Buat branch (git checkout -b fitur-baru).
+Commit (git commit -m "Fitur X").
+Push (git push origin fitur-baru).
+Ajukan pull request.
+
+Pastikan kode terdokumentasi dan dites lokal.
+
+📬 Kontak
+Hubungi Tim Lintas Alam (UNI107):
 
 Email: jockytugas@gmail.com
-GitHub Issues: Buka issue di repositori ini untuk bug atau pertanyaan teknis.
+GitHub Issues: Buka issue di repositori untuk bug atau pertanyaan.
 
 
-Dibuat oleh Tim Lintas Alam (Kode Tim: UNI107)Solusi Absensi Otomatis untuk Masa Depan AkademikTanggal Pembuatan: 16 April 2025
+Dibuat oleh Tim Lintas Alam (UNI107)Solusi Absensi Otomatis untuk Masa Depan Akademik📅 16 April 2025
